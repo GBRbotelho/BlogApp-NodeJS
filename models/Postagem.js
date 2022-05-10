@@ -19,7 +19,7 @@ const Postagem = new Schema({
         ref: 'categorias',
         required: true
     },
-    counteudo: {
+    conteudo: {
         type: String,
         required: true
     },

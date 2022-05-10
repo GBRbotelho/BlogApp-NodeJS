@@ -132,7 +132,7 @@ router.post('/postagens/nova',(req,res) => {
             titulo: req.body.titulo,
             descricao: req.body.descricao,
             categoria: req.body.categoria,
-            couteudo: req.body.conteudo,
+            conteudo: req.body.conteudo,
             slug: req.body.slug
         }
 
