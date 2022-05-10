@@ -28,7 +28,7 @@ const Postagem = new Schema({
         default: Date.now()
     }
 
-    
+
 })
 
 mongoose.model('postagens',Postagem)

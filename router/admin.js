@@ -162,9 +162,6 @@ router.get('/postagens/edit/:id', (req,res) => {
         res.redirect('/admin/postagens')
     })
     
-    
-    
-    
 })
 
 router.post('/postagens/edit', (req,res) => {
@@ -189,6 +186,16 @@ router.post('/postagens/edit', (req,res) => {
         req.flash('error_msg', 'Houve um erro ao salvar a edição')
         res.redirect('/admin/postagens')
     }) 
+})
+
+router.get('/postagens/deletar/:id', (req,res) => {
+    Postagem.remove({_id: req.params.id}).then(() => {
+        req.flash('success_msg','Mensagem deletada com sucesso!')
+        res.redirect('/admin/postagens')
+    }).catch((err) => {
+        req.flash('error_msg','Houve um erro interno')
+        res.redirect('/admin/postagens')
+    })
 })
 
 module.exports = router
