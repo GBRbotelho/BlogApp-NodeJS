@@ -14,6 +14,9 @@
     require('./models/Categoria')
     const Categoria =mongoose.model('categorias')
     const usuarios = require('./router/usuario')
+    const passport = require('passport')
+    require('./config/auth')(passport)
+    const db = require('./config/db')
 //Configuraçoes
     // Sessão
         app.use(session({
@@ -21,13 +24,19 @@
             resave: true,
             saveUninitialized: true
         }))
+
+        app.use(passport.initialize())
+        app.use(passport.session())
         app.use(flash())
     //Middleware
         app.use((req,res,next)=>{
             res.locals.success_msg = req.flash('success_msg')
             res.locals.error_msg=req.flash('error_msg')
+            res.locals.error = req.flash('error')
+            res.locals.user = req.user || null
             next()
         })
+
     //Body Parser
         app.use(express.json());
         app.use(express.urlencoded({extended:true}))
@@ -35,7 +44,7 @@
         app.engine('handlebars', engine({ extname: 'handlebars', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts/' }))
         app.set('view engine', 'handlebars');
     //Mongoose
-        mongoose.connect('mongodb://localhost/blogapp').then(()=> {
+        mongoose.connect(db.mongoURI).then(()=> {
             console.log('Conectado ao mongo')
         }).catch((err) => {
             console.log('Erro ao se conectar: '+err)
@@ -107,7 +116,7 @@
     app.use('/usuarios',usuarios)
 
 //Outros
-const PORT = 8081
+const PORT = process.env.PORT || 8081
 app.listen(PORT, () => {
     console.log('Servidor rodando! ')
 })
